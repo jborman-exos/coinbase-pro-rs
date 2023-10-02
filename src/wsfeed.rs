@@ -336,9 +336,19 @@ mod tests {
         let found_l2update_2 = found_l2update.clone();
 
         // hard to check in sandbox because low flow
-        let stream = WSFeed::connect(WS_URL, &["BTC-USD"], &[ChannelType::Level2])
+        let stream = WSFeed::connect_with_auth(
+                WS_URL,
+                &["BTC-USD"],
+                &[ChannelType::Level2],
+                KEY,
+                SECRET,
+                PASSPHRASE,
+            )
             .await
             .unwrap();
+        // let stream = WSFeed::connect(WS_URL, &["BTC-USD"], &[ChannelType::Level2])
+        //     .await
+        //     .unwrap();
         stream
             .take(3)
             .try_for_each(move |msg| {
